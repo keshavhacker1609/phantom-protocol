@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend (uvicorn)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["main:app", "--reload", "--port", "8000"],
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "envFile": "${workspaceFolder}/backend/.env",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Attack Simulator",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/demo/attack_simulator.py",
+      "args": ["--scenario", "3"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Two-Node Mesh Demo",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/demo/two_node_demo.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (Backend + Simulator)",
+      "configurations": ["Backend (uvicorn)", "Attack Simulator"]
+    }
+  ]
+}

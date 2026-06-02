@@ -55,7 +55,6 @@ Thumbs.db
 desktop.ini
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -83,3 +82,6 @@ alembic/versions/*.pyc
 
 # HuggingFace cache
 ~/.cache/huggingface/
+
+# Keep build script but not temp artifacts
+build_pdf.py
