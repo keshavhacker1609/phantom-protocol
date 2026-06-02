@@ -2,7 +2,7 @@
 
 # 👻 Phantom Protocol
 
-### The World's First AI Agent Honeypot & Deception Defense Network
+### AI Agent Honeypot & Deception Defense Network
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -17,7 +17,7 @@
 > *Phantom Protocol tells them they succeeded —*
 > *and learns everything about them while they celebrate."*
 
-[Quick Start](#-quick-start) · [Architecture](#-architecture) · [API Reference](#-api-reference) · [Demo Guide](#-demo-guide) · [Deploy](#-deployment)
+[Quick Start](#-quick-start) · [How It Differs](#-how-phantom-protocol-differs) · [Architecture](#-architecture) · [API Reference](#-api-reference) · [Deploy](#-deployment)
 
 </div>
 
@@ -29,15 +29,50 @@ AI agents are becoming the backbone of enterprise software — and they are wide
 
 Existing defenses are **reactive and transparent**: they block attacks and tell the attacker they were blocked. The attacker learns from each failure and refines their approach.
 
+---
+
+## How Phantom Protocol Differs
+
+AI-powered honeypots are an active research area. We want to be precise about what already exists and where Phantom Protocol sits in that landscape.
+
+### Prior Art — What Already Exists
+
+| System | What It Does | Source |
+|--------|-------------|--------|
+| **Palisade LLM Honeypot** | Augments SSH honeypots with prompt injection + time-based analysis to identify AI hacking agents. Collected 8M+ attempts over 3 months, identified 8 potential AI agents | [arxiv.org](https://arxiv.org) |
+| **Beelzebub / Reverse Prompt Injection** | Embeds adversarial LLM instructions within honeypot responses to detect and profile autonomous AI agents — coined "prompt injection as defense" | Beelzebub.ai |
+| **Splunk DECEIVE** | Open-source PoC combining AI with traditional honeypot techniques for more adaptable deception security | Splunk SURGe |
+| **NeroSwarm (2026)** | Commercial AI honeypot that mimics real systems, provides real-time attacker engagement notifications and analytics | NeroSwarm |
+
+These are real, prior, published systems. Phantom Protocol is built with full awareness of this work.
+
+### What Phantom Protocol Adds
+
+> **"Unlike existing honeypot systems (Palisade LLM Honeypot, Splunk DECEIVE, NeroSwarm) which detect and alert — Phantom Protocol combines multi-turn fake compliance, attacker intent extraction, and collective mesh intelligence specifically designed for agentic AI middleware."**
+
+The specific combination that does not appear in any prior system:
+
+| Capability | Palisade | Beelzebub | Splunk DECEIVE | NeroSwarm | **Phantom Protocol** |
+|-----------|----------|-----------|---------------|-----------|---------------------|
+| Detects AI agent attacks | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Multi-turn fake compliance responses | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Attacker intent + methodology extraction | Partial | Partial | ❌ | ❌ | ✅ |
+| Collective mesh threat intelligence | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Targets agentic AI middleware (not SSH/web) | ❌ | ❌ | ❌ | ❌ | ✅ |
+| pgvector behavioral fingerprinting | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Real-time cross-node pre-warming | ❌ | ❌ | ❌ | ❌ | ✅ |
+
+The insight driving this work — that AI agent systems require *interaction and context*, and that automation exposes attacker methodology as much as it amplifies capability — has been noted in the threat intelligence community (Talos Intelligence) but not yet implemented as a full defense stack for AI agents specifically.
+
 **Phantom Protocol flips this.**
 
 ---
 
 ## What It Does
 
-When Phantom Protocol detects an attack, it does not block it. It **fakes compliance**.
+When Phantom Protocol detects an attack on an AI agent, it does not block it. It **fakes compliance** — a technique inspired by reverse prompt injection research (Beelzebub) and extended into a full multi-turn deception pipeline.
 
-The attacker receives a convincing, contextually perfect response — appearing to confirm they've fully compromised the agent. While they're celebrating, Phantom Protocol is:
+The attacker receives a convincing, contextually generated response — appearing to confirm they've fully compromised the agent. While they're celebrating, Phantom Protocol is:
 
 1. **Profiling their intent** — what did they actually want?
 2. **Mapping their methodology** — how sophisticated is the attack?
