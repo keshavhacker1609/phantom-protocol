@@ -9,9 +9,21 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip with trusted hosts (bypasses ISP SSL inspection)
+RUN pip install --upgrade pip \
+    --trusted-host pypi.org \
+    --trusted-host files.pythonhosted.org \
+    --trusted-host pypi.python.org
 
+COPY requirements.txt .
+
+# Install all dependencies with trusted hosts
+RUN pip install --no-cache-dir -r requirements.txt \
+    --trusted-host pypi.org \
+    --trusted-host files.pythonhosted.org \
+    --trusted-host pypi.python.org
+
+# Pre-download the ML model so it's baked into the image
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
 
 COPY . .

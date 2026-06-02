@@ -1,19 +1,19 @@
 # Contributing to Phantom Protocol
 
-Thank you for your interest in contributing. This document covers how to set up
-the development environment, the code standards we follow, and how to submit changes.
+Contributions are welcome — bug fixes, new attack pattern signatures, frontend improvements, documentation, or new mesh network features.
 
 ---
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/phantom-protocol.git
+git clone https://github.com/keshavhacker1609/phantom-protocol.git
 cd phantom-protocol
 
 # Backend
 cd backend
-python -m venv venv && source venv/bin/activate
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env
 
@@ -22,30 +22,34 @@ cd ../frontend
 npm install
 ```
 
-Run tests:
-```bash
-cd backend
-python -m pytest tests/ -v
-```
-
 ---
 
 ## Code Standards
 
-- **Python**: type hints on all public functions, no bare `except Exception`
-- **Async**: all I/O must be async — never block the event loop
-- **Logging**: use `get_logger(__name__)`, include context in every log line
-- **Error responses**: always return `{"error": "...", "message": "...", "request_id": "..."}`
-- **No hardcoded data**: all responses must come from DB, Redis, or live computation
+- **Python** — type hints on all public functions, `async` for all I/O
+- **No bare `except Exception`** — always catch specific exceptions or re-raise
+- **Logging** — use `get_logger(__name__)`, include context (session_id, node_id)
+- **Error responses** — always return `{"error": "...", "message": "...", "request_id": "..."}`
+- **No hardcoded data** — all responses from DB, Redis, or live computation
 
 ---
 
 ## Pull Request Process
 
-1. Fork and create a feature branch: `git checkout -b feature/your-feature`
-2. Make changes with clear, focused commits
-3. Verify all Python files pass syntax: `python -m py_compile backend/**/*.py`
-4. Open a PR with a clear description of what changed and why
+1. Fork the repo and create a feature branch: `git checkout -b feature/your-feature`
+2. Make changes with focused, well-described commits
+3. Verify Python syntax: `python -m py_compile backend/**/*.py`
+4. Test the attack simulator still works: `python demo/attack_simulator.py --scenario 1`
+5. Open a PR with a clear description of what changed and why
+
+---
+
+## Good First Issues
+
+- Add new attack patterns to `backend/modules/sentinel/patterns.py`
+- Improve fake data variety in `backend/modules/deception/response_generator.py`
+- Add new D3.js visualization to the dashboard
+- Write tests for the detection engine
 
 ---
 

@@ -1,5 +1,3 @@
-version: "3.9"
-
 # Phantom Protocol — Full Stack with Two-Node Mesh Demo
 # Both nodes share Redis → real mesh threat intel sharing
 # Attack node-alpha on :8000, node-beta gets pre-warned automatically
