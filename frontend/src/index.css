@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #030712;
+  --bg-surface: #0d1117;
+  --border: #1a2332;
+  --red: #ef4444;
+  --cyan: #06b6d4;
+  --purple: #a855f7;
+  --orange: #f97316;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #1a2332 #030712;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: #030712;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #1a2332;
+  border-radius: 2px;
+}
+
+body {
+  margin: 0;
+  background-color: #030712;
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', monospace;
+  overflow-x: hidden;
+}
+
+.panel {
+  background: #0d1117;
+  border: 1px solid #1a2332;
+  border-radius: 8px;
+}
+
+.panel-header {
+  border-bottom: 1px solid #1a2332;
+  padding: 10px 16px;
+}
+
+.severity-critical { color: #ef4444; }
+.severity-high { color: #f97316; }
+.severity-medium { color: #eab308; }
+.severity-low { color: #22c55e; }
+
+.glow-red { box-shadow: 0 0 12px rgba(239, 68, 68, 0.5); }
+.glow-cyan { box-shadow: 0 0 12px rgba(6, 182, 212, 0.5); }
+.glow-purple { box-shadow: 0 0 12px rgba(168, 85, 247, 0.5); }
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.1), transparent);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes scan {
+  0% { top: -2px; }
+  100% { top: 100vh; }
+}
+
+.attack-row-enter {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.node-pulse {
+  animation: nodePulse 2s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+  0%, 100% { r: 6; opacity: 1; }
+  50% { r: 9; opacity: 0.7; }
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(26, 35, 50, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 50, 0.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+}

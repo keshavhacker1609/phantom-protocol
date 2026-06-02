@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+!.env.example
+pip-wheel-metadata/
+*.whl
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ML model cache
+*.pkl
+*.joblib
+/tmp/phantom_classifier*
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/build/
+
+# Docker
+.docker/
+
+# Database
+*.db
+*.sqlite3
+*.sqlite
+
+# Logs
+*.log
+logs/
+*.out
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V*
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+*.cover
+
+# Secrets — never commit these
+backend/.env
+.env.local
+.env.production
+secrets.json
+credentials.json
+
+# Alembic
+alembic/versions/*.pyc
+
+# HuggingFace cache
+~/.cache/huggingface/

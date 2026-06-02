@@ -1,0 +1,119 @@
+version: "3.9"
+
+# Phantom Protocol — Full Stack with Two-Node Mesh Demo
+# Both nodes share Redis → real mesh threat intel sharing
+# Attack node-alpha on :8000, node-beta gets pre-warned automatically
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: phantom-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: phantom
+      POSTGRES_PASSWORD: phantom
+      POSTGRES_DB: phantom
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U phantom -d phantom"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: phantom-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru --save ""
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  node-alpha:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: phantom-node-alpha
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://phantom:phantom@postgres:5432/phantom
+      DATABASE_URL_SYNC: postgresql://phantom:phantom@postgres:5432/phantom
+      REDIS_URL: redis://redis:6379
+      MESH_NODE_ID: node-alpha
+      ENVIRONMENT: production
+      DEMO_MODE: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - model_cache:/home/phantom/.cache/huggingface
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 90s
+      retries: 3
+
+  node-beta:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: phantom-node-beta
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://phantom:phantom@postgres:5432/phantom
+      DATABASE_URL_SYNC: postgresql://phantom:phantom@postgres:5432/phantom
+      REDIS_URL: redis://redis:6379
+      MESH_NODE_ID: node-beta
+      ENVIRONMENT: production
+      DEMO_MODE: "false"
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - model_cache:/home/phantom/.cache/huggingface
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 90s
+      retries: 3
+
+  frontend:
+    image: node:20-alpine
+    container_name: phantom-frontend
+    working_dir: /app
+    command: sh -c "npm ci && npm run build && npx serve -s dist -p 5173 --no-clipboard"
+    volumes:
+      - ./frontend:/app
+      - frontend_modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8000
+      VITE_NODE_BETA_URL: http://localhost:8001
+    depends_on:
+      - node-alpha
+      - node-beta
+
+volumes:
+  postgres_data:
+  model_cache:
+  frontend_modules:
